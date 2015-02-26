@@ -25,13 +25,13 @@
 </script>
   
 <script>
-
+//function that interprets input and releases output
 function enterFunction() {
       var console = document.getElementById("console");
       var input = document.getElementById("input");
       console.innerHTML = input.value;
 }
-
+//functionality that allows the user to hit "enter" rather than click the Enter button
 $('input[type=text]').on('keydown', function(e) {
     if (e.which == 13) {
       enterFunction();   
