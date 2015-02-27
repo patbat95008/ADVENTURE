@@ -10,9 +10,13 @@
 </head>
 <body>
 <center>
+<!--
    <font color=#0F0 size=16>
       <p id="console"></p>
    </font>
+-->
+<textarea id="console" rows="5" cols="100" style="resize:none; background-color: black; color: green; font-size: 16;">
+</textarea>
 
 
 <p></p>
@@ -131,7 +135,11 @@ function moveAndPrint(dir){
 //function that interprets input and releases output
 function enterFunction() {
       //check the input
-      if(input.value == "go north"){
+	  if (input.value == "look" ){
+	     currentRoom.printRoom();
+		 input.value = "";
+	  }
+      else if(input.value == "go north"){
          moveAndPrint(0);
       }else if(input.value == "go east"){
          moveAndPrint(1);
@@ -141,6 +149,7 @@ function enterFunction() {
          moveAndPrint(3);
       }else{
          console.innerHTML = "um... what?";
+		 input.value = "";
       }
 }
 
