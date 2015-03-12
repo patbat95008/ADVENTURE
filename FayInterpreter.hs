@@ -6,6 +6,9 @@ data StringCarrier = StringCarrier { thisValue :: String } deriving Show
 returnTuple :: [(Int, Int)]
 returnTuple = [(1, 1), (2, 2), (3, 3)]
 
+returnTripleArray :: [(Int, Int, Int)]
+returnTripleArray  = [(1, 1, 1), (2, 2, 2), (3, 3, 3)]
+
 roomMake :: Int -> StringCarrier -> [StringCarrier] -> [Int] -> Room
 roomMake w x y z = Room w (thisValue x) (stringArrayMake y []) z
 
