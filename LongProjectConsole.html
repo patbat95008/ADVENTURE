@@ -56,12 +56,12 @@ var currentRoomId = 0;
 
 var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
-var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion." ++ 
-						"A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
-var northRoom = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), [StringCarrierMake("south")], [0]);
+var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion. A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
+var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), [StringCarrierMake("south")], [0]);
 
+var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks. There is a door to the west."), [StringCarrierMake("east")], [2])
 
-var rooms = [startRoom, northRoom];
+var rooms = [startRoom, parlor, library];
 
 //function that interprets input and releases output
 function enterFunction() {
