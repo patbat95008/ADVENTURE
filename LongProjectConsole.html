@@ -27,130 +27,74 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
 </script>
-  
+<script src="FayInterpreter.js">
+</script>
 <script>
+//Fay strict object
+var interp = Strict.FayInterpreter;
+
+//JSON string object creation function
+
+
+function StringCarrierMake(value) {
+   var parseString = '{"instance": "StringCarrier", "thisValue": "';
+   parseString = parseString + value;
+   parseString = parseString + '"}';
+   
+   var returnValue = JSON.parse(parseString);
+   return returnValue;
+}
+
 //global input and output variables
 var console = document.getElementById("console");
 var input = document.getElementById("input");
 
+//current room id
+var currentRoomId = 0;
+
 //test rooms
-var currentRoom = new room("Starting Room", "This room is where you start");
-var northRoom = new room("North Room", "This room is north of the starting room");
+//var currentRoom = new room("Starting Room", "This room is where you start");
+//var northRoom = new room("North Room", "This room is north of the starting room");
+//var startStringCarrier = StringCarrierMake("This is the starting room");
+var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
-$(function() {
-//test link
-currentRoom.linkNorth(northRoom);
-northRoom.linkSouth(currentRoom);
-currentRoom.printRoom();
-});
+var startRoom = interp.roomMake(0, StringCarrierMake("This is the starting room"), [StringCarrierMake("north")], [1]);
+var northRoom = interp.roomMake(1, StringCarrierMake("This room is north of the starting room"), [StringCarrierMake("south")], [0]);
 
-//room class
-function room(name, description){
-   name: "default";
-   desc: "defaultDesc";
-   
-   north: null;
-   south: null;
-   east: null;
-   west: null;
-   
-   this.name = name;
-   this.desc = description;
-}
-//room linking functions
-room.prototype.linkNorth = function(room){
-   this.north = room;
-   return true;
-}
-room.prototype.linkSouth = function(room){
-   this.south = room;
-   return true;
-}
-room.prototype.linkEast = function(room){
-   this.east = room;
-   return true;
-}
-room.prototype.linkWest = function(room){
-   this.west = room;
-   return true;
-}
-
-//room movement with tests (use this)
-room.prototype.goDir = function(dir) {
-   //0 = north
-   if(dir === 0 && this.north != null){
-      goNorth();
-      return true;
-   //1 = east
-   }else if(dir === 1 && this.east != null){
-      goEast();
-      return true;
-   //2 = south
-   }else if(dir === 2 && this.south != null){
-      goSouth();
-      return true;
-   //3 = west
-   }else if(dir === 3 && this.west != null){
-      goWest();
-      return true;
-   }else{
-      return false;
-   }
-}
-
-// base movement functions
-function goNorth(){
-   currentRoom = currentRoom.north;
-   return currentRoom;
-}
-function goSouth(){
-   currentRoom = currentRoom.south;
-   return currentRoom;
-}
-function goEast(){
-   currentRoom = currentRoom.east;
-   return currentRoom;
-}
-function goWest(){
-   currentRoom = currentRoom.west;
-   return currentRoom;
-}
-
-room.prototype.printRoom = function(){
-   console.innerHTML = this.desc;
-}
-
-//function that simplifies the movement process
-function moveAndPrint(dir){
-         //try to move the specified direction
-         if(currentRoom.goDir(dir)){}
-         //if impossible, say so
-         else {console.innerHTML = "You can't go that way.";}
-         //reset console for convenience
-         input.value = "";
-         //display new room
-         currentRoom.printRoom();
-}
+var rooms = [startRoom, northRoom];
 
 //function that interprets input and releases output
 function enterFunction() {
       //check the input
 	  if (input.value == "look" ){
-	     currentRoom.printRoom();
+//	     currentRoom.printRoom();
+		 printRoom();
 		 input.value = "";
 	  }
-      else if(input.value == "go north"){
-         moveAndPrint(0);
-      }else if(input.value == "go east"){
-         moveAndPrint(1);
-      }else if(input.value == "go south"){
-         moveAndPrint(2);
-      }else if(input.value == "go east"){
-         moveAndPrint(3);
-      }else{
-         console.innerHTML = "um... what?";
-		 input.value = "";
-      }
+	  else {
+//	    alert ("Cake!");
+	    parseCommand(input.value);
+		input.value = "";
+	  }
+}
+
+//function that prints the room to the console
+
+function printRoom() {
+	console.innerHTML = rooms[currentRoomId].desc;
+}
+
+//function that processes the command and sends it to Haskell, then parses the result value from Haskell
+function parseCommand(command) {
+	var commandCarrier = StringCarrierMake(command);
+	
+	var destID = interp.compareCommand(rooms[currentRoomId], commandCarrier);
+//	alert (destID);
+	if (destID != -1) {
+		currentRoomId = destID;
+		printRoom();
+	}
+	
 }
 
 //functionality that allows the user to hit "enter" rather than click the Enter button
@@ -160,6 +104,7 @@ $('input[type=text]').on('keydown', function(e) {
       e.preventDefault();
     }
 });
+
 </script>
 
 
