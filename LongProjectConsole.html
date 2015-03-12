@@ -54,30 +54,43 @@ var currentRoomId = 0;
 
 // rooms
 
+//format: interp.roomMake(room#, StringCarrierMake("roomDesc."), [StringCarrierMake("connectionDirection")], [room# of connection])
+
 var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
 var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion. A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
-var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), [StringCarrierMake("south")], [0]);
+var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), 
+		[StringCarrierMake("south")], [0], [StringCarrierMake("east")], [2], [StringCarrierMake("north")], [4], [StringCarrierMake("east")], [5]);
 
-var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks.\n There is are doors to the east and the north."), [StringCarrierMake("east")], [2]));
+var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks.\n There is are doors to the east and the north."), 
+		[StringCarrierMake("east")], [1], [StringCarrierMake("north")], [3]);
 
-var study = interp.roomMake(3, StringCarrierMake("This study looks like it's been used heavily by someone. Notes and drawing are strewn about everywhere.\n There is a door to the south."), [StringCarrierMake("south")], [3]);
+var study = interp.roomMake(3, StringCarrierMake("This study looks like it's been used heavily by someone. Notes and drawing are strewn about everywhere.\n There is a door to the south."), 
+		[StringCarrierMake("south")], [2]);
 
-var livingRoom = interp.roomMake(4, StringCarrierMake("This room is coated in dust and smells of old people. Nobody's used it in a long time.\n There's are doors to the north and south"), [StringCarrierMake("south")], [4]);
+var livingRoom = interp.roomMake(4, StringCarrierMake("This room is coated in dust and smells of old people. Nobody's used it in a long time.\n There's are doors to the north and south"), 
+		[StringCarrierMake("south")], [1], [StringCarrierMake("north")], [8]);
 
-var sunRoom = interp.roomMake(5, StringCarrierMake("There's something odd about this room.\n The large windows are all covered in black paint.\n A bucket of paint sits in the corner. There are doors to the west and north"), [StringCarrierMake("west")], [5]);
+var sunRoom = interp.roomMake(5, StringCarrierMake("There's something odd about this room.\n The large windows are all covered in black paint.\n A bucket of paint sits in the corner. There are doors to the west and north"), 
+		[StringCarrierMake("west")], [1]);
 
-var garden = interp.roomMake(6, StringCarrierMake("You find yourself outside in a beautiful garden. It's full of plants you've never seen before!\n One particular flower catches your eye.\n The mansion is to the south, and the pool to the east"), [StringCarrierMake("south")], [6]);
+var garden = interp.roomMake(6, StringCarrierMake("You find yourself outside in a beautiful garden. It's full of plants you've never seen before!\n One particular flower catches your eye.\n The mansion's sun room is to the south, and the pool to the east"), 
+		[StringCarrierMake("south")], [5], [StringCarrierMake("east")], [7]);
 
-var pool = interp.roomMake(7, StringCarrierMake("An empty pool sits before you, a pile of leaves gather at the bottom.\n You spy a contraption sitting there as well.\n The garden is to the west."), [StringCarrierMake("west")], [7]);
+var pool = interp.roomMake(7, StringCarrierMake("An empty pool sits before you, a pile of leaves gather at the bottom.\n You spy a contraption sitting there as well.\n The garden is to the west."), 
+		[StringCarrierMake("west")], [6]);
 
-var doorRoom = interp.roomMake(8, StringCarrierMake("This room is absolutly filled with doors!\n Choices... choices...\n There are doors to the north, south, east, and west."), [StringCarrierMake("north")], [8]);
+var doorRoom = interp.roomMake(8, StringCarrierMake("This room is absolutly filled with doors!\n Choices... choices...\n There are doors to the north, south, east, and west."), 
+		[StringCarrierMake("north")], [11], [StringCarrierMake("south")], [4], [StringCarrierMake("east")], [9], [StringCarrierMake("west")], [10]);
 
-var fireRoom = interp.roomMake(9, StringCarrierMake("Who turned up the heat? It's so hot the furniture is melting!\n A bright red bulb hangs at the center of this room.\n There is a door to the west."), [StringCarrierMake("west")], [9]);
+var fireRoom = interp.roomMake(9, StringCarrierMake("Who turned up the heat? It's so hot the furniture is melting!\n A bright red bulb hangs at the center of this room.\n There is a door to the west."), 
+		[StringCarrierMake("west")], [8]);
 
-var iceRoom = interp.roomMake(10, StringCarrierMake("This room is frozen solid.\n An ice block sits in a place of prominence.\n A door leads east."), [StringCarrierMake("east")], [10]);
+var iceRoom = interp.roomMake(10, StringCarrierMake("This room is frozen solid.\n An ice block sits in a place of prominence.\n A door leads east."), 
+		[StringCarrierMake("east")], [10]);
 
-var kingRoom = interp.roomMake(11, StringCarrierMake("This is it...\n Before you stands the great King Joe, ruler of the mansion.\n He looks at you, dazed, and says, \"How did you come this far? Oh well, have at thee!\"\n Thankfully, he's too slow to really get you.\n A single door leads south."), [StringCarrierMake("south")], [10]);
+var kingRoom = interp.roomMake(11, StringCarrierMake("This is it...\n Before you stands the great King Joe, ruler of the mansion.\n He looks at you, dazed, and says, \"How did you come this far? Oh well, have at thee!\"\n Thankfully, he's too slow to really get you.\n A single door leads south."), 
+		[StringCarrierMake("south")], [10]);
 
 var rooms = [startRoom, parlor, library, study, livingRoom, sunRoom, garden, pool, doorRoom, fireRoom, iceRoom, kingRoom];
 
