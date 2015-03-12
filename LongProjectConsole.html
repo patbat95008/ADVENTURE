@@ -52,14 +52,14 @@ var input = document.getElementById("input");
 //current room id
 var currentRoomId = 0;
 
-//test rooms
-//var currentRoom = new room("Starting Room", "This room is where you start");
-//var northRoom = new room("North Room", "This room is north of the starting room");
-//var startStringCarrier = StringCarrierMake("This is the starting room");
+// rooms
+
 var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
-var startRoom = interp.roomMake(0, StringCarrierMake("This is the starting room"), [StringCarrierMake("north")], [1]);
-var northRoom = interp.roomMake(1, StringCarrierMake("This room is north of the starting room"), [StringCarrierMake("south")], [0]);
+var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion." ++ 
+						"A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
+var northRoom = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), [StringCarrierMake("south")], [0]);
+
 
 var rooms = [startRoom, northRoom];
 
