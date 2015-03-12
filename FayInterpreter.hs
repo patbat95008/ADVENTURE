@@ -12,7 +12,7 @@ roomMake w x y z = Room w (thisValue x) (stringArrayMake y []) z
 stringArrayMake :: [StringCarrier] -> [String] -> [String]
 stringArrayMake x y
    | length x == 0 = y
-   | otherwise = stringArrayMake (tail x) ([thisValue (head x)] ++ y)
+   | otherwise = stringArrayMake (tail x) (y ++ [thisValue (head x)])
 
 insertCommand :: Room -> StringCarrier -> Int -> Room
 insertCommand x y z = finalRoom
