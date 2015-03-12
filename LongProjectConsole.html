@@ -59,17 +59,17 @@ var currentRoomId = 0;
 var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
 var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion. A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
-var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the south, north, east, and west."), 
+var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the north, south, east, and west."), 
 		[StringCarrierMake("south"), StringCarrierMake("east"), StringCarrierMake("north"), StringCarrierMake("west")], [0, 2, 4, 5]);
 
-var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks. There is are doors to the east and the north."), 
+var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks. There are doors to the north and east."), 
 		[StringCarrierMake("east"), StringCarrierMake("north")], [1, 3]);
 
 
 var study = interp.roomMake(3, StringCarrierMake("This study looks like it's been used heavily by someone. Notes and drawing are strewn about everywhere. There is a door to the south."), 
 		[StringCarrierMake("south")], [2]);
 
-var livingRoom = interp.roomMake(4, StringCarrierMake("This room is coated in dust and smells of old people. Nobody's used it in a long time. There's are doors to the north and south"), 
+var livingRoom = interp.roomMake(4, StringCarrierMake("This room is coated in dust and smells of old people. Nobody's used it in a long time. There are doors to the north and south"), 
 		[StringCarrierMake("south"), StringCarrierMake("north")], [1, 8]);
 
 var sunRoom = interp.roomMake(5, StringCarrierMake("There's something odd about this room. The large windows are all covered in black paint. A bucket of paint sits in the corner. There are doors to the west and north"), 
