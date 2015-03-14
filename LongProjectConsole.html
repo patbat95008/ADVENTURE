@@ -33,8 +33,27 @@
 //Fay strict object
 var interp = Strict.FayInterpreter;
 
-//JSON string object creation function
+//Key class for game.
 
+function keyObject(id, success, fail) {
+	id: -1;
+	success: "defaultSuccess";
+	fail: "defaultFail";
+	
+	this.id = id;
+	this.success = success;
+	this.fail = fail;
+}
+
+keyObject.prototype.getSuccess = function() {
+	return this.success;
+}
+
+keyObject.prototype.getFail = function() {
+	return this.fail;
+}
+
+//JSON string object creation function
 
 function StringCarrierMake(value) {
    var parseString = '{"instance": "StringCarrier", "thisValue": "';
@@ -56,45 +75,67 @@ var currentRoomId = 0;
 
 //format: interp.roomMake(room#, StringCarrierMake("roomDesc."), [StringCarrierMake("connectionDirection")], [room# of connection])
 
-var northRoomCarrier = StringCarrierMake("This room is north of the starting room");
 
-var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion. A dusty chandelier hangs from the ceiling, cobwebs draped over it. There's a door to the north."), [StringCarrierMake("north")], [1]);
+var startRoom = interp.roomMake(0, StringCarrierMake("The entrance to the mansion. A dusty chandelier hangs from the ceiling, cobwebs draped over it. A letter of some sort sits on the ground, which you can probably PICK UP. There's a door to the north."), [StringCarrierMake("north"), StringCarrierMake("pick up")], [[0, 1, -1], [2, 3, -1]]);
+
 var parlor = interp.roomMake(1, StringCarrierMake("A parlor. There's a piano in the corner, and empty bookshelves along the walls. There are doors to the north, south, east, and west."), 
-		[StringCarrierMake("south"), StringCarrierMake("east"), StringCarrierMake("north"), StringCarrierMake("west")], [0, 2, 4, 5]);
+		[StringCarrierMake("south"), StringCarrierMake("east"), StringCarrierMake("north"), StringCarrierMake("west")], [[0, 0, -1], [0, 5, -1], [0, 4, -1], [0, 2, -1]]);
 
 var library = interp.roomMake(2, StringCarrierMake("A huge library. The walls are lined with thousands upon thousands of books. Upon closer inspection, you notice most of them are cookbooks. There are doors to the north and east."), 
-		[StringCarrierMake("east"), StringCarrierMake("north")], [1, 3]);
+		[StringCarrierMake("east"), StringCarrierMake("north")], [[0, 1, -1], [0, 3, -1]]);
 
 
-var study = interp.roomMake(3, StringCarrierMake("This study looks like it's been used heavily by someone. Notes and drawing are strewn about everywhere. There is a door to the south."), 
-		[StringCarrierMake("south")], [2]);
+var study = interp.roomMake(3, StringCarrierMake("This study looks like it's been used heavily by someone. Notes and drawing are strewn about everywhere, which you may want to READ through...maybe? There is a door to the south."), 
+		[StringCarrierMake("south"), StringCarrierMake("read")], [[0, 2, -1], [3, 3, 4]]);
 
 var livingRoom = interp.roomMake(4, StringCarrierMake("This room is coated in dust and smells of old people. Nobody's used it in a long time. There are doors to the north and south"), 
-		[StringCarrierMake("south"), StringCarrierMake("north")], [1, 8]);
+		[StringCarrierMake("south"), StringCarrierMake("north")], [[0, 1, -1], [1, 8, 5]]);
 
-var sunRoom = interp.roomMake(5, StringCarrierMake("There's something odd about this room. The large windows are all covered in black paint. A bucket of paint sits in the corner. There are doors to the west and north"), 
-		[StringCarrierMake("west")], [1]);
+var sunRoom = interp.roomMake(5, StringCarrierMake("There's something odd about this room. The large windows are all covered in black paint. A bucket of paint sits in the corner, which you can probably GET PAINT out of. There are doors to the west and north"), 
+		[StringCarrierMake("west"), StringCarrierMake("north"), StringCarrierMake("get paint")], [[0, 1, -1], [0, 6, -1], [2, 0, -1]]);
 
 var garden = interp.roomMake(6, StringCarrierMake("You find yourself outside in a beautiful garden. It's full of plants you've never seen before! One particular flower catches your eye. The mansion's sun room is to the south, and the pool to the east"), 
-		[StringCarrierMake("south"), StringCarrierMake("east")], [5, 7]);
+		[StringCarrierMake("south"), StringCarrierMake("east")], [[0, 5, -1], [0, 7, -1]]);
 
-var pool = interp.roomMake(7, StringCarrierMake("An empty pool sits before you, a pile of leaves gather at the bottom. You spy a contraption sitting there as well. The garden is to the west."), 
-		[StringCarrierMake("west")], [6]);
+var pool = interp.roomMake(7, StringCarrierMake("An empty pool sits before you, a pile of leaves gather at the bottom. You spy a contraption sitting there as well, which you maybe able to OPEN. The garden is to the west."), 
+		[StringCarrierMake("west"), StringCarrierMake("open")], [[0, 6, -1], [3, 4, 5]]);
 
 var doorRoom = interp.roomMake(8, StringCarrierMake("This room is absolutly filled with doors! Choices... choices... There are doors to the north, south, east, and west."), 
-		[StringCarrierMake("north"), StringCarrierMake("south"), StringCarrierMake("east"), StringCarrierMake("west")], [11, 4, 9, 10]);
+		[StringCarrierMake("north"), StringCarrierMake("south"), StringCarrierMake("east"), StringCarrierMake("west")], [[0, 11, -1], [0, 4, -1], [0, 9, -1], [0, 10, -1]]);
 
-var fireRoom = interp.roomMake(9, StringCarrierMake("Who turned up the heat? It's so hot the furniture is melting! A bright red bulb hangs at the center of this room. There is a door to the west."), 
-		[StringCarrierMake("west")], [8]);
+var fireRoom = interp.roomMake(9, StringCarrierMake("Who turned up the heat? It's so hot the furniture is melting! A bright red bulb hangs at the center of this room, which you can probably PAINT over. There is a door to the west."), 
+		[StringCarrierMake("west"), StringCarrierMake("paint")], [[0, 8, -1], [3, 0, 1]]);
 
-var iceRoom = interp.roomMake(10, StringCarrierMake("This room is frozen solid. An ice block sits in a place of prominence. A door leads east."), 
-		[StringCarrierMake("east")], [10]);
+var iceRoom = interp.roomMake(10, StringCarrierMake("This room is frozen solid. An ice block sits in a place of prominence You might be able to MELT this block of ice with something. A door leads east."), 
+		[StringCarrierMake("east"), StringCarrierMake("melt")], [[0, 8, -1], [3, 1, 2]]);
 
 var kingRoom = interp.roomMake(11, StringCarrierMake("This is it... Before you stands the great King Joe, ruler of the mansion. He looks at you, dazed, and says, 'How did you come this far? Oh well, have at thee!' Thankfully, he's too slow to really get you. A single door leads south."), 
-		[StringCarrierMake("south")], [10]);
+		[StringCarrierMake("south"), StringCarrierMake("kill"), StringCarrierMake("north")], [[0, 8, -1], [3, 2, 6], [1, 12, 6]]);
+		
+var finale = interp.roomMake(12, StringCarrierMake("Congratulations, you have beat the game!"), [], []);
+
+var rooms = [startRoom, parlor, library, study, livingRoom, sunRoom, garden, pool, doorRoom, fireRoom, iceRoom, kingRoom, finale];
+
+//keys
 
 
-var rooms = [startRoom, parlor, library, study, livingRoom, sunRoom, garden, pool, doorRoom, fireRoom, iceRoom, kingRoom];
+var paint = new keyObject(0, "You pick up a bunch of paint.", "You already have some paint!");
+
+var heatlamp = new keyObject(1, "You paint over the heat lamp's bulb, allowing you to pick it up without burning your hands off.", "The heat lamp is too hot for you to pick up in its current state!");
+
+var sword = new keyObject(2, "You melt the ice block, and pick up an AWESOME LOOKING SWORD.", "You have nothing to melt the ice block with!");
+
+var letter = new keyObject(3, "You pick up a letter. It has a bunch of stuff on it you don't really care about.", "What letter?");
+
+var notes = new keyObject(4, "You use the random information in the letter you possess to locate a section of notes that seem to involve some sort of contraption. You're not quite sure how you came to that conclusion.", "You attempt to decipher through the notes, but there's so many present that you space out within seconds.");
+
+var key = new keyObject(5, "You use the notes to open the contraption, and obtain a key. Guess those random notes really were useful!", "You're not quite sure how to operate the contraption. It looks a bit dangerous now that you look closer at it, so you decide to play it safe.");
+
+var finalkey = new keyObject(6, "The king falls with a single stroke of your sword. He drops a special key of some sort that looks like goes into a door behind him.", "The king raises an eyebrow as you attempt to kill him with...your bare hands. Great job!");
+
+var keyObjects = [paint, heatlamp, sword, letter, notes, key, finalkey];
+var keyValues = [0, 0, 0, 0, 0, 0, 0];
+
 
 //function that interprets input and releases output
 function enterFunction() {
@@ -121,11 +162,38 @@ function printRoom() {
 function parseCommand(command) {
 	var commandCarrier = StringCarrierMake(command);
 	
-	var destID = interp.compareCommand(rooms[currentRoomId], commandCarrier);
+	var commandInfo = interp.compareCommand(rooms[currentRoomId], commandCarrier);
 //	alert (destID);
-	if (destID != -1) {
-		currentRoomId = destID;
+	if (commandInfo[0] == 0) {
+		currentRoomId = commandInfo[1];
 		printRoom();
+	}
+	else if (commandInfo[0] == 1) {
+		roomId = commandInfo[1];
+		keyId = commandInfo[2];
+		if (keyValues[keyId] != 1) {
+			console.innerHTML = "You don't possess the key to go through that door!";
+		}
+		else {
+			currentRoomId = roomId;
+			printRoom();
+		}
+	}
+	else if (commandInfo[0] == 2) {
+		keyId = commandInfo[1];
+		keyValues[keyId] = 1;
+		console.innerHTML = keyObjects[keyId].success;
+	}
+	else if (commandInfo[0] == 3) {
+		keyId = commandInfo[1];
+		newKeyId = commandInfo[2];
+		if (keyValues[keyId] == 1) {
+			keyValues[newKeyId] = 1;
+			console.innerHTML = keyObjects[newKeyId].getSuccess();
+		}
+		else {
+			console.innerHTML = keyObjects[newKeyId].getFail();
+		}
 	}
 	
 }
